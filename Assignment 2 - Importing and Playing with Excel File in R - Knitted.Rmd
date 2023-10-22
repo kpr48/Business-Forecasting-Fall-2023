@@ -1,0 +1,117 @@
+---
+title: "Assignment 2"
+author: "kpr48@scarletmail.rutgers.edu"
+date: "10/14/2023"
+output: html_document
+---
+
+```{r}
+library(readxl)
+Typical_Employee_Survey_Data <- read_excel("C:/Users/Kevin/Desktop/MSCA/Business Forecasting/Typical_Employee_Survey_Data.xlsx",
+col_names = FALSE)
+View(Typical_Employee_Survey_Data)
+
+```
+
+```{r}
+## Header Rows
+
+colnames(Typical_Employee_Survey_Data) <- c("Age", "Gender", "Satisfaction", "Job Characteristics", "Years at Present Employer", "Promotion", "Decision Making", "Budgetary Decisions", "Proud to Work", "Loyalty", "Workplace Relations")
+```
+
+
+
+
+```{r}
+## Five Point Summaries
+
+fivenum(Typical_Employee_Survey_Data$Age)
+fivenum(Typical_Employee_Survey_Data$Gender)
+fivenum(Typical_Employee_Survey_Data$Satisfaction)
+fivenum(Typical_Employee_Survey_Data$`Job Characteristics`)
+fivenum(Typical_Employee_Survey_Data$`Years at Present Employer`)
+fivenum(Typical_Employee_Survey_Data$Promotion)
+fivenum(Typical_Employee_Survey_Data$`Decision Making`)
+fivenum(Typical_Employee_Survey_Data$`Budgetary Decisions`)
+fivenum(Typical_Employee_Survey_Data$`Proud to Work`)
+fivenum(Typical_Employee_Survey_Data$Loyalty)
+fivenum(Typical_Employee_Survey_Data$`Workplace Relations`)
+
+```
+
+
+
+
+
+```{r}
+## Boxplots
+
+boxplot(Typical_Employee_Survey_Data$Age, main = "Age of Employees")
+boxplot(Typical_Employee_Survey_Data$Age, main = "Gender")
+boxplot(Typical_Employee_Survey_Data$Age, main = "Satisfaction")
+boxplot(Typical_Employee_Survey_Data$Age, main = "Job Characteristics")
+boxplot(Typical_Employee_Survey_Data$Age, main = "Years at Present Employer")
+boxplot(Typical_Employee_Survey_Data$Age, main = "Promotion")
+boxplot(Typical_Employee_Survey_Data$Age, main = "Decision Making")
+boxplot(Typical_Employee_Survey_Data$Age, main = "Budgetary Decisions")
+boxplot(Typical_Employee_Survey_Data$Age, main = "Proud to Work")
+boxplot(Typical_Employee_Survey_Data$Age, main = "Loyalty")
+boxplot(Typical_Employee_Survey_Data$Age, main = "Workplace Relations")
+
+```
+```{r}
+## Change Gender Data
+
+Typical_Employee_Survey_Data$Gender[Typical_Employee_Survey_Data$Gender == '1'] <- "Male"
+
+Typical_Employee_Survey_Data$Gender[Typical_Employee_Survey_Data$Gender == '2'] <- "Female"
+
+```
+
+```{r}
+## Change Budgetary Decisions Data
+
+Typical_Employee_Survey_Data$`Budgetary Decisions`[Typical_Employee_Survey_Data$`Budgetary Decisions` == '1'] <- "Yes"
+
+Typical_Employee_Survey_Data$`Budgetary Decisions`[Typical_Employee_Survey_Data$`Budgetary Decisions` == '2'] <- "No"
+
+```
+
+
+```{r}
+## Convert Columns to Factors
+
+Factor_Gender <- factor(Typical_Employee_Survey_Data$Gender)
+
+Factor_Budgetary_Decisions <- factor(Typical_Employee_Survey_Data$`Budgetary Decisions`)
+
+```
+
+
+```{r}
+## Plot Visuals - Age and Years at Present Employer
+
+hist(Typical_Employee_Survey_Data$Age)
+hist(Typical_Employee_Survey_Data$`Years at Present Employer`)
+
+```
+
+```{r}
+## Plot Visuals - Gender
+
+pie(table(Typical_Employee_Survey_Data$Gender))
+
+```
+
+
+```{r}
+## Plot scatter plots
+
+plot(Typical_Employee_Survey_Data$`Proud to Work`,Typical_Employee_Survey_Data$`Decision Making`)
+
+plot(Typical_Employee_Survey_Data$Age, Typical_Employee_Survey_Data$`Years at Present Employer`)
+
+```
+
+
+
