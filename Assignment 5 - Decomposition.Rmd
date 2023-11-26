@@ -1,0 +1,90 @@
+---
+Title: Assignment 5 - Decomposition
+Author: kpr48@scarletmail.rutgers.edu
+Output: .RMD file and HTML document
+---
+
+```{r}
+# Import data
+
+library(readxl)
+US_Import_Data <- read_excel("C:/Users/Kevin/Desktop/MSCA/Business Forecasting/US_Import_Data.xlsx")
+View(US_Import_Data)
+
+```
+
+```{r}
+# Convert to time series
+
+US_Import_Data_raw <- US_Import_Data$value
+US_Import_Data_ts <- ts(US_Import_Data_raw, frequency = 12, start = c(2013,1))
+
+```
+
+```{r}
+# Libraries
+
+library(fpp)
+library(fpp2)
+library(TTR)
+
+```
+```{r}
+# Plot data
+
+plot(US_Import_Data_ts, main = "US Import Data in Millions of Dollars - Jan '13 to Jul '23", xlab = "Month - Year", ylab = "Millions of Dollars $")
+
+```
+
+```{r}
+# 2 Arguments
+
+stl_decomp <- stl(US_Import_Data_ts,s.window ="periodic")
+
+```
+
+```{r}
+# Table view
+
+stl_decomp
+
+```
+
+```{r}
+# Graph view
+
+plot(stl_decomp)
+
+# Strong seasonality; trend towards end of time series due to Covid-19 pandemic
+
+```
+
+```{r}
+# Attributes
+
+attributes(stl_decomp)
+
+```
+
+```{r}
+# Seasonal adjustment
+
+seasadj(stl_decomp)
+
+```
+
+```{r}
+# Line
+
+plot(seasadj(stl_decomp), main = "US Import Data in Millions of Dollars - Jan '13 to Jul '23 - Seas. Adj", xlab = "Month - Year", ylab = "Millions of Dollars $")
+
+lines(seasadj(stl_decomp))
+
+f_stl <- forecast(stl_decomp,h=15)
+
+f_stl
+
+plot(f_stl)
+
+```
+
