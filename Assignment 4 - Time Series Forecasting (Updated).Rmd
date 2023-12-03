@@ -1,0 +1,159 @@
+---
+Title: Assignment 4 - Time Series Forecasting
+Author: kpr48@scarletmail.rutgers.edu
+Output: .RMD file and HTML document
+---
+  
+```{r}
+# Install packages and libraries
+
+library(TTR)
+library(fpp)
+library(fpp2)
+
+```
+```{r}
+# Import data into R
+
+library(readxl)
+US_Import_Data <- read_excel("C:/Users/Kevin/Desktop/MSCA/Business Forecasting/US_Import_Data.xlsx")
+View(US_Import_Data)
+
+```
+
+```{r}
+# Plot data
+
+US_Import_Data_raw <- US_Import_Data$value
+US_Import_Data_ts <- ts(US_Import_Data_raw, frequency = 12, start = c(2013,1))
+
+plot(US_Import_Data_ts, main = "US Import Data in Millions of Dollars - Jan '13 to Jul '23", xlab = "Month", ylab = "Millions of Dollars $")
+
+```
+
+```{r}
+# Take Mean of all available history
+
+mean_forecast <- meanf(US_Import_Data_ts,5)
+
+plot(mean_forecast)
+
+
+```
+
+```{r}
+# Naive forecast
+
+naive_forecast <- naive(US_Import_Data_ts,5)
+
+plot(naive_forecast)
+
+```
+
+```{r}
+# Random Walk Forecast
+
+rwf_forecast <- rwf(US_Import_Data_ts,5, drift=TRUE)
+
+plot(rwf_forecast)
+
+```
+
+```{r}
+# Seasonal Naive Forecast
+
+snaive_forecast <- snaive(US_Import_Data_ts,5)
+
+plot(snaive_forecast)
+
+```
+
+```{r}
+# Plot all of these together
+
+plot(mean_forecast)
+
+lines(naive_forecast$mean,col="red")
+lines(rwf_forecast$mean,col="green")
+lines(snaive_forecast$mean,col="black")
+
+
+```
+
+```{r}
+# Moving average forecast
+
+MA5_forecast <- ma(US_Import_Data_ts,order=5)
+
+MA9_forecast <- ma(US_Import_Data_ts,order=9)
+
+
+plot(US_Import_Data_ts, main = "US Import Data in Millions of Dollars - Jan '13 to Jul '23 - Mean Forecasts", xlab = "Month", ylab = "Millions of Dollars $" )
+lines(MA5_forecast,col="Pink")
+lines(MA9_forecast,col="Blue")
+
+```
+
+```{r}
+# ETS
+
+ets(US_Import_Data_ts)
+
+```
+
+```{r}
+# Holt Winters
+
+HoltWinters(US_Import_Data_ts)
+
+plot(HoltWinters(US_Import_Data_ts))
+
+```
+
+```{r}
+# SSE
+
+HoltWinters(US_Import_Data_ts,beta=FALSE,gamma=FALSE)
+
+SSE_Simple <- HoltWinters(US_Import_Data_ts,beta=FALSE,gamma=FALSE)
+
+attributes(SSE_Simple)
+
+plot(SSE_Simple)
+
+SSE_Simple$SSE
+SSE_Simple$fitted
+
+
+```
+
+```{r}
+# SSE with Trend
+
+SSE_Trend <- HoltWinters(US_Import_Data_ts,gamma=FALSE)
+plot(SSE_Trend)
+SSE_Trend
+
+```
+
+```{r}
+# Attributes
+
+attributes(SSE_Trend)
+SSE_Trend$SSE
+
+```
+```{r}
+# Holt Winters
+
+SSE_Winters <- HoltWinters(US_Import_Data_ts)
+SSE_Winters$SSE
+plot(SSE_Winters)
+```
+
+```{r}
+# Moving average order 5 and Holt Winters appear to be most accurate models
+
+
+```
+
